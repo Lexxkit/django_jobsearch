@@ -1,5 +1,5 @@
 from django.db.models import Count
-from django.http import Http404
+from django.http import Http404, HttpResponseServerError, HttpResponseNotFound
 from django.shortcuts import render
 from django.views import View
 
@@ -72,3 +72,12 @@ class VacancyView(View):
             'vacancy': vacancy
         }
         return render(request, 'app_jobsearch/vacancy.html', context=context)
+
+
+
+def custom_handler404(request, exception):
+    return HttpResponseNotFound('Кажется такой страницы не существует. Проверьте адрес!')
+
+
+def custom_handler500(request):
+    return HttpResponseServerError('Ой, что то сломалось... Простите, извините!')

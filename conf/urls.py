@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app_jobsearch.views import MainView, AllVacanciesView, VacanciesBySpecialtyView, CompanyView, VacancyView
+
+from app_jobsearch.views import MainView, AllVacanciesView, VacanciesBySpecialtyView, CompanyView, VacancyView, \
+    custom_handler404, custom_handler500
+
+handler404 = custom_handler404
+handler500 = custom_handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
