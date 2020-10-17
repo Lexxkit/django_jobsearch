@@ -1,4 +1,4 @@
-# Tours Stepik project on Django
+# Job search Stepik project on Django
 
 Training project for [a course on the Stepik](<https://stepik.org/course/63298>).
 
