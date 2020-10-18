@@ -1,5 +1,6 @@
 {% extends 'app_jobsearch/base.html' %}
 {% block main %}
+{% load ru_pluralize %}
   <main class="container mt-3">
     <section>
       <h1 class="h1 text-center mx-auto mt-4 py-5"><strong>Вакансии для <br>Junior-разработчиков</strong></h1>
@@ -34,7 +35,7 @@
             <img class="mx-auto d-block" src={{ specialty.picture }} width="100" height="60" alt="">
             <div class="card-body">
               <p class="card-text mb-2">{{ specialty.title }}</p>
-              <p class="card-text"><a href={% url 'vacancies-by-specialty' specialty.code %}>{{ specialty.count }} вакансий</a></p>
+              <p class="card-text"><a href={% url 'vacancies-by-specialty' specialty.code %}>{{ specialty.count|ru_pluralize:"вакансия,вакансии,вакансий" }}</a></p>
             </div>
           </div>
         </div>
@@ -53,7 +54,7 @@
             </a>
             <div class="card-body">
               <p class="card-text mb-2">{{ company.name }}</p>
-              <p class="card-text"><a href={% url 'company-view' company.id %}>{{ company.count }} вакансий</a></p>
+              <p class="card-text"><a href={% url 'company-view' company.id %}>{{ company.count|ru_pluralize:"вакансия,вакансии,вакансий" }}</a></p>
             </div>
           </div>
         </div>

@@ -74,7 +74,6 @@ class VacancyView(View):
         return render(request, 'app_jobsearch/vacancy.html', context=context)
 
 
-
 def custom_handler404(request, exception):
     return HttpResponseNotFound('Кажется такой страницы не существует. Проверьте адрес!')
 
