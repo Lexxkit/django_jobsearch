@@ -90,19 +90,27 @@ class ApplicationView(View):
         return render(request, 'app_jobsearch/sent.html', context=context)
 
 
+def create_mycompany(request):
+    # create mock-data to redirect user on 'company-edit' page if he press the button
+    Company.objects.create(name='Company', location='', logo='',
+                           description='', employee_count=0,
+                           owner=request.user)
+    mycompany = Company.objects.filter(owner=request.user.id).values().first()
+    context = {
+        'form': CompanyForm(initial=mycompany)
+    }
+    return render(request, 'app_jobsearch/company-edit.html', context=context)
+
+
 class MyCompanyView(View):
     def get(self, request):
         user_company = Company.objects.filter(owner=request.user.id).values().first()
+
         if user_company is None:
-            # create mock-data to redirect user on 'company-edit' page
-            Company.objects.create(name='Company', location='', logo='',
-                                   description='', employee_count=0,
-                                   owner=request.user)
             return render(request, 'app_jobsearch/company-create.html')
 
         form = CompanyForm(initial=user_company)
         context = {
-            'company': user_company,
             'form': form
         }
         return render(request, 'app_jobsearch/company-edit.html', context=context)
@@ -124,7 +132,6 @@ class MyCompanyView(View):
 
         user_company = Company.objects.filter(owner=request.user.id).values().first()
         context = {
-            'company': user_company,
             'form': form
         }
         return render(request, 'app_jobsearch/company-edit.html', context=context)

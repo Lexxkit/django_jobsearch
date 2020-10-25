@@ -21,7 +21,7 @@ from django.urls import path
 
 from app_jobsearch.views import MainView, AllVacanciesView, VacanciesBySpecialtyView, CompanyView, VacancyView, \
     ApplicationView, MyCompanyView, MyVacanciesAllView, MyVacancyOneView, custom_handler404, custom_handler500, \
-    MyLoginView, MyRegisterView
+    MyLoginView, MyRegisterView, create_mycompany
 
 handler404 = custom_handler404
 handler500 = custom_handler500
@@ -35,6 +35,7 @@ urlpatterns = [
     path('vacancies/<int:vacancy_id>', VacancyView.as_view(), name='vacancy'),
     path('vacancies/<int:vacancy_id>/send', ApplicationView.as_view(), name='sent'),
     path('mycompany/', MyCompanyView.as_view(), name='user-company'),
+    path('create-mycompany/', create_mycompany, name='create-mycompany'),
     path('mycompany/vacancies/', MyVacanciesAllView.as_view(), name='user-vacancies'),
     path('mycompany/vacancies/<int:vacancy_id>', MyVacancyOneView.as_view(), name='user-vacancy'),
     path('login/', MyLoginView.as_view(), name='login'),
