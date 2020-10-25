@@ -4,7 +4,13 @@ Training project for [a course on the Stepik](<https://stepik.org/course/63298>)
 
 Creating a site for jobs search:
 - Multiple pages with companies and jobs description;
-- Data base support. 
+- Admin panel support;
+- User authorization and authentication;
+- New company create/edit page;
+- New vacancy create/edit page;
+- Send application for chosen vacancy;
+- Media and static files support;
+- Data base support.
 
 ## Dependencies
 

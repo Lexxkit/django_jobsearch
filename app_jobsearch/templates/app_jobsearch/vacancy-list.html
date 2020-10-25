@@ -1,0 +1,58 @@
+{% extends 'app_jobsearch/base.html' %}
+
+{% block title %}Вакансии компании | Джуманджи{% endblock %}
+
+{% block style %}
+  body {
+  background-color: #F6F2E6;
+  }
+{% endblock %}
+
+{% block main %}
+{% load ru_pluralize %}
+  <main class="container mt-3 pb-5">
+    <div class="row mt-5">
+      <div class="col-12 col-lg-4">
+        <aside class="pt-3 pb-4 px-4 mb-5 card">
+          <h1 class="h4 pt-2 pb-2">Моя компания</h1>
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link" href="{% url 'user-company' %}">1. Информация о&nbsp;компании</a>
+            <a class="nav-link active" href="{% url 'user-vacancies' %}">2. Вакансии</a>
+          </div>
+        </aside>
+      </div>
+      <div class="col-12 col-lg-8">
+        <div class="card">
+          <div class="card-body px-4 pb-4">
+            <section class="tab-pane fade show active">
+              <h2 class="h4 pt-2 pb-3">Вакансии</h2>
+              <!-- vacancy state -->
+              {% for vacancy in vacancies %}
+              <div class="card mt-3">
+                <div class="card-body px-4">
+                  <div class="row align-items-center">
+                    <div class="col-6 col-lg-8">
+                      <a href={% url 'user-vacancy' vacancy.id %} class="mb-1">{{ vacancy.title }}</a>
+                      <p class="mb-1">
+                        <span class="mr-4">От {{ vacancy.salary_min }} до {{ vacancy.salary_max }} руб.</span>
+                        <a href="{% url 'user-vacancy' vacancy.id %}" class="text-info">{{ vacancy.applications_count|ru_pluralize:"отклик,отклика,откликов" }}</a>
+                      </p>
+                    </div>
+                    <div class="col-6 col-lg-4 text-right">
+                      <a href={% url 'user-vacancy' vacancy.id %} class="btn btn-outline-info">Изменить</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              <!-- END vacancy state -->
+
+              <a href={% url 'user-vacancy' 0 %} class="mt-4 btn btn-info mb-2">Добавить вакансию</a>
+
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

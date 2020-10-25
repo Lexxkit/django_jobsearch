@@ -13,20 +13,35 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 
 from app_jobsearch.views import MainView, AllVacanciesView, VacanciesBySpecialtyView, CompanyView, VacancyView, \
-    custom_handler404, custom_handler500
+    ApplicationView, MyCompanyView, MyVacanciesAllView, MyVacancyOneView, custom_handler404, custom_handler500, \
+    MyLoginView, MyRegisterView
 
 handler404 = custom_handler404
 handler500 = custom_handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', MainView.as_view(), name='main-view'),
-    path('vacancies/', AllVacanciesView.as_view(), name='vacancies-view'),
+    path('', MainView.as_view(), name='main'),
+    path('vacancies/', AllVacanciesView.as_view(), name='vacancies'),
     path('vacancies/cat/<str:specialty>/', VacanciesBySpecialtyView.as_view(), name='vacancies-by-specialty'),
-    path('companies/<int:company_id>', CompanyView.as_view(), name='company-view'),
-    path('vacancies/<int:vacancy_id>', VacancyView.as_view(), name='vacancy-view'),
+    path('companies/<int:company_id>', CompanyView.as_view(), name='company'),
+    path('vacancies/<int:vacancy_id>', VacancyView.as_view(), name='vacancy'),
+    path('vacancies/<int:vacancy_id>/send', ApplicationView.as_view(), name='sent'),
+    path('mycompany/', MyCompanyView.as_view(), name='user-company'),
+    path('mycompany/vacancies/', MyVacanciesAllView.as_view(), name='user-vacancies'),
+    path('mycompany/vacancies/<int:vacancy_id>', MyVacancyOneView.as_view(), name='user-vacancy'),
+    path('login/', MyLoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('register/', MyRegisterView.as_view()),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
