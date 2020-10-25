@@ -8,7 +8,7 @@
     <div class="row mt-5">
       <div class="col-12 col-lg-2">
         <div class="pl-3 mb-5">
-          <p><a href={% url 'vacancies' %}>Назад</a></p>
+          <p><a href={{ request.META.HTTP_REFERER }}>Назад</a></p>
         </div>
       </div>
       <div class="col-12 col-lg-8">

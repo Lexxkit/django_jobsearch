@@ -1,9 +1,11 @@
 from datetime import date
 
+from django.contrib import messages
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
 from django.http import Http404, HttpResponseServerError, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views import View
 from django.views.generic import CreateView
 
@@ -117,6 +119,7 @@ class MyCompanyView(View):
             user_company.description = company_data['description']
             user_company.employee_count = company_data['employee_count']
             user_company.save()
+            messages.success(request, 'Информация о компании обновлена')
             return redirect('user-company')
 
         user_company = Company.objects.filter(owner=request.user.id).values().first()
@@ -176,7 +179,8 @@ class MyVacancyOneView(View):
             user_vacancy.salary_max = vacancy_data['salary_max']
             user_vacancy.published_at = date.today()
             user_vacancy.save()
-            return redirect('user-vacancies')
+            messages.success(request, 'Вакансия обновлена')
+            return redirect(reverse('user-vacancy', args=[vacancy_id]))
         return render(request, 'app_jobsearch/vacancy-edit.html', {'form': form})
 
 

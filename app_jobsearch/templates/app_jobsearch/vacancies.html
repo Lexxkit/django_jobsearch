@@ -5,6 +5,9 @@
 {% block main %}
 {% load ru_pluralize %}
   <main class="container mt-3">
+    <div class="navbar mt-5">
+      <p><a href={{ request.META.HTTP_REFERER }}>Назад</a></p>
+    </div>
     <section>
       <h1 class="h1 text-center mx-auto mt-4 pt-5" style="font-size: 70px;"><strong>{{ page_title }}</strong></h1>
       <p class="text-center pt-1">{{ vacancies|length|ru_pluralize:"вакансия,вакансии,вакансий" }}</p>

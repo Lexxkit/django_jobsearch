@@ -26,7 +26,13 @@
             <!-- Tab -->
             <section>
               <h2 class="h4 pt-2 pb-3">{{ vacancy.title }}</h2>
-              <p class="alert alert-info" role="alert">Вакансия обновлена</p>
+              {% if messages %}
+              <ul class="messages">
+                  {% for message in messages %}
+                  <p{% if message.tags %} class="{{ message.tags }} alert alert-info"{% endif %}>{{ message }}</p>
+                  {% endfor %}
+              </ul>
+              {% endif %}
               <form method="post" action="{% url 'user-vacancy' vacancy.id %}">{% csrf_token %}
                 <div class="row">
                   <div class="col-12 col-md-6">
