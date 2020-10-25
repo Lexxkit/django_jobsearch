@@ -181,6 +181,7 @@ class MyVacancyOneView(View):
             user_vacancy.save()
             messages.success(request, 'Вакансия обновлена')
             return redirect(reverse('user-vacancy', args=[vacancy_id]))
+
         return render(request, 'app_jobsearch/vacancy-edit.html', {'form': form})
 
 
