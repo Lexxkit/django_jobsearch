@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponseServerError, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.views import View
 from django.views.generic import CreateView
 
