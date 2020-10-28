@@ -1,3 +1,5 @@
+from enum import Enum
+
 """ Вакансии """
 
 jobs = [
@@ -47,22 +49,31 @@ specialties = [
 
 """ Статусы в формате Enum """
 
-#
-#
-# class EducationChoices(Enum):
-#     missing = 'Отсутствует'
-#     secondary = 'Среднее'
-#     vocational = 'Средне-специальное'
-#     incomplete_higher = 'Неполное высшее'
-#     higher = 'Высшее'
-#
-#
-# class GradeChoices(Enum):
-#     intern = 'intern'
-#     junior = 'junior'
-#     middle = 'middle'
-#     senior = 'senior'
-#     lead = 'lead'
+
+class EducationChoices(Enum):
+    missing = 'Отсутствует'
+    secondary = 'Среднее'
+    vocational = 'Средне-специальное'
+    incomplete_higher = 'Неполное высшее'
+    higher = 'Высшее'
+
+    @classmethod
+    def choices(cls):
+        return [(key.name, key.value) for key in cls]
+
+
+class GradeChoices(Enum):
+    intern = 'intern'
+    junior = 'junior'
+    middle = 'middle'
+    senior = 'senior'
+    lead = 'lead'
+
+    @classmethod
+    def choices(cls):
+        return [(key.name, key.value) for key in cls]
+
+
 #
 #
 # class SpecialtyChoices(Enum):
@@ -76,7 +87,11 @@ specialties = [
 #     testing = 'Тестирование'
 #
 #
-# class WorkStatusChoices(Enum):
-#     not_in_search = 'Не ищу работу'
-#     consideration = 'Рассматриваю предложения'
-#     in_search = 'Ищу работу'
+class WorkStatusChoices(Enum):
+    not_in_search = 'Не ищу работу'
+    consideration = 'Рассматриваю предложения'
+    in_search = 'Ищу работу'
+
+    @classmethod
+    def choices(cls):
+        return [(key.name, key.value) for key in cls]

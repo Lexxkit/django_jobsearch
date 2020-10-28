@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from app_jobsearch.models import Specialty
+from app_jobsearch.models import Specialty, Resume
 
 
 class RegistrationForm(UserCreationForm):
@@ -11,10 +11,6 @@ class RegistrationForm(UserCreationForm):
     first_name = forms.CharField(max_length=25, label='Имя',
                                  widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=50, label='Фамилия',
-                                widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password1 = forms.CharField(label='Пароль',
-                                widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(label='Подтверждение пароля',
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
@@ -34,7 +30,7 @@ class ApplicationForm(forms.Form):
 class CompanyForm(forms.Form):
     name = forms.CharField(max_length=128, widget=forms.TextInput(attrs={'class': 'form-control'}))
     location = forms.CharField(max_length=32, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    logo = forms.ImageField(allow_empty_file=True, required=False)
+    logo = forms.ImageField(required=False)
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
     employee_count = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}))
 
@@ -52,3 +48,16 @@ class VacancyForm(forms.Form):
                                                                'style': 'color:#000;'}))
     salary_min = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     salary_max = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+
+class ResumeForm(forms.ModelForm):
+    specialty = forms.ModelChoiceField(queryset=Specialty.objects.all(),
+                                       to_field_name='code')
+
+    class Meta:
+        model = Resume
+        exclude = ['user']
+        widgets = {
+            'education_name': forms.Textarea(attrs={'rows': 3}),
+            'experience': forms.Textarea(attrs={'rows': 3})
+        }

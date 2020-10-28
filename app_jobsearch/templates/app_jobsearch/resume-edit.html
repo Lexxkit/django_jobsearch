@@ -1,0 +1,79 @@
+{% extends 'app_jobsearch/base.html' %}
+
+{% block title %}Создать резюме | Джуманджи{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block style %}
+  body {
+  background-color: #F6F2E6;
+  }
+{% endblock %}
+
+{% block main %}
+  <main class="container mt-3 pb-5">
+    <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
+      <div class="card-body px-3 pb-4">
+        <h1 class="h4 pt-2 pb-3">Мое резюме</h1>
+        <div class="messages">
+          {% for message in messages %}
+          <p{% if message.tags %} class="{{ message.tags }} alert alert-info"{% endif %}>{{ message }}</p>
+          {% endfor %}
+        </div>
+        <form method="post" action="{% url 'user-resume' %}" class="">{% csrf_token %}
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                {{ form.name|as_crispy_field }}
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                {{ form.surname|as_crispy_field }}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                {{ form.status|as_crispy_field }}
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                {{ form.salary|as_crispy_field }}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                {{ form.specialty|as_crispy_field }}
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                {{ form.grade|as_crispy_field }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group pb-2">
+            {{ form.education|as_crispy_field }}
+          </div>
+          <div class="form-group pb-2">
+            {{ form.education_name|as_crispy_field }}
+          </div>
+          <div class="form-group pb-2">
+            {{ form.experience|as_crispy_field }}
+          </div>
+          <div class="form-group pb-3">
+            {{ form.portfolio|as_crispy_field }}
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-info" value="Сохранить">
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+{% endblock %}

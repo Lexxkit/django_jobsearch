@@ -2,6 +2,8 @@
 
 {% block title %}Джуманджи{% endblock %}
 
+{% load crispy_forms_tags %}
+
 {% block main %}
   <main class="container">
     <div class="row">
@@ -14,8 +16,7 @@
           </div>
           {% for field in form %}
             <div class="form-label-group">
-              <p class="text-muted mt-2"> {{ field.label }}</p>
-              {{ field }}
+              {{ field|as_crispy_field }}
               {% if form.non_field_errors %}
                 <ul class='form-errors'>
                     {% for error in form.non_field_errors %}
@@ -29,7 +30,7 @@
           <button class="btn btn-primary btn-lg btn-block" type="submit">Войти</button>
         </form>
 
-        <div class="mt-4 text-center"><p>Нет аккаунта? <a href="/register">Зарегистрируйтесь!</a></p></div>
+        <div class="mt-4 text-center"><p>Нет аккаунта? <a href={% url 'register' %}>Зарегистрируйтесь!</a></p></div>
 
       </div>
     </div>

@@ -54,6 +54,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'conf.urls'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -129,6 +131,8 @@ MEDIA_COMPANY_IMAGE_DIR = 'company_images'
 MEDIA_SPECIALITY_IMAGE_DIR = 'speciality_images'
 
 # Authorisation and authentication redirection
+
+LOGIN_URL = '/login'
 
 LOGIN_REDIRECT_URL = '/'
 

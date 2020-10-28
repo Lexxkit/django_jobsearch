@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'app_jobsearch/base.html' %}
+
+{% block title %}Джуманджи{% endblock %}
+
 {% load crispy_forms_tags %}
-<head>
-  <title>Джуманджи</title>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-<body>
+
+{% block main %}
   <main class="container">
     <div class="row">
       <div class="col-8 col-lg-4 offset-2 offset-lg-4">
@@ -16,56 +14,17 @@
             <h1 class="h3 mb-3 font-weight-normal">Джуманджи</h1>
             <p class="h5 font-weight-light">Создайте аккаунт</p>
           </div>
-<!--
-          <div class="mt-5 form-label-group">
-            <p class="text-muted">Логин</p>
-            <input type="text" id="inputLogin" class="form-control" required autofocus>
-            <label for="inputLogin"></label>
-          </div>
-
-          <div class=" form-label-group">
-            <p class="text-muted">Имя</p>
-            <input type="text" id="inputName" class="form-control" required >
-            <label for="inputName"></label>
-          </div>
-
-          <div class=" form-label-group">
-            <p class="text-muted">Фамилия</p>
-            <input type="text" id="inputSurname" class="form-control" required >
-            <label for="inputSurname"></label>
-          </div>
-
-          <div class="form-label-group">
-            <p class="text-muted"> Пароль</p>
-            <input type="password" id="inputPassword" class="form-control" required>
-            <label for="inputPassword"></label>
-          </div>
-          <div class="checkbox mb-3"></div>
-          <button class="btn btn-primary btn-lg btn-block" type="submit">Зарегистрироваться</button>
-
-          <table>{{ form.as_p }}</table>
-          <button class="btn btn-primary btn-lg btn-block" type="submit">Зарегистрироваться</button>
--->
-          {% for field in form %}
-            <div class=" form-label-group">
-              <p class="text-muted">{{ field.label_tag }}</p>
-              <p class="mt-3">{{ field }}</p>
-              {% for error in field.errors %}
-                <p style="color: #ff0000">{{ error }}</p>
-              {% endfor %}
-            </div>
-          {% endfor %}
+          {{ form|crispy }}
           <div class="checkbox mb-3"></div>
           <button class="btn btn-primary btn-lg btn-block" type="submit">Зарегистрироваться</button>
 
         </form>
 
-         <div class="mt-4 text-center"><p>Есть аккаунт? <a href="/login">Войдите!</a></p></div>
+         <div class="mt-4 text-center"><p>Есть аккаунт? <a href="{% url 'login' %}">Войдите!</a></p></div>
 
 
 
       </div>
     </div>
   </main>
-</body>
-</html>
+{% endblock %}}

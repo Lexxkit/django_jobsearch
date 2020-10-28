@@ -8,7 +8,9 @@ Creating a site for jobs search:
 - User authorization and authentication;
 - New company create/edit page;
 - New vacancy create/edit page;
+- User resume create/edit page;
 - Send application for chosen vacancy;
+- Search through vacancies from the main page;
 - Media and static files support;
 - Data base support.
 

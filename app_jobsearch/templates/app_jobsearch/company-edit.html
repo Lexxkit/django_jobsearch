@@ -27,11 +27,11 @@
             <section class="tab-pane fade show active">
               <h2 class="h4 pt-2 pb-3">Информация о&nbsp;компании</h2>
               {% if messages %}
-              <ul class="messages">
+              <div class="messages">
                   {% for message in messages %}
                   <p{% if message.tags %} class="{{ message.tags }} alert alert-info"{% endif %}>{{ message }}</p>
                   {% endfor %}
-              </ul>
+              </div>
               {% endif %}
               <form method="post" action="{% url 'user-company' %}" enctype="multipart/form-data">{% csrf_token %}
                 <div class="row">
@@ -46,11 +46,10 @@
                       <label class="mb-2 text-dark" for="companyLogo">Логотип</label>
                       <div class="row align-items-center">
                         <div class="col-6">
-                          <img src="{{ form.instance.logo.url }}">
+                          <img src="">
                         </div>
                         <div class="col-6" style="position: relative;">
                           {{ form.logo }}
-                            <input type="submit" class="btn btn-info px-4" value="Загрузить">
                           </div>
                           <div class="custom-file" style="">
                             <input type="file" class="custom-file-input" id="inputGroupFile01">
