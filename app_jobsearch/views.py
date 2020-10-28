@@ -128,9 +128,10 @@ class MyCompanyView(LoginRequiredMixin, View):
             # re-write the existed data with data from the form
             user_company.name = company_data['name']
             user_company.location = company_data['location']
-            user_company.logo = company_data['logo']
             user_company.description = company_data['description']
             user_company.employee_count = company_data['employee_count']
+            if company_data['logo']:
+                user_company.logo = company_data['logo']
             user_company.save()
 
             # display flash message
