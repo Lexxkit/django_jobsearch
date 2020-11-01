@@ -89,18 +89,16 @@ class ApplicationView(View):
             context = {
                 'vacancy': vacancy,
             }
+        context = {
+            'form': form
+        }
         return render(request, 'app_jobsearch/sent.html', context=context)
 
 
 @login_required
 def create_mycompany(request):
-    # create mock-data to redirect user on 'company-edit' page if he press the 'create' button
-    Company.objects.create(name='Company', location='', logo='',
-                           description='', employee_count=0,
-                           owner=request.user)
-    mycompany = Company.objects.filter(owner=request.user.id).values().first()
     context = {
-        'form': CompanyForm(initial=mycompany)
+        'form': CompanyForm()
     }
     return render(request, 'app_jobsearch/company-edit.html', context=context)
 
@@ -120,9 +118,9 @@ class MyCompanyView(LoginRequiredMixin, View):
         return render(request, 'app_jobsearch/company-edit.html', context=context)
 
     def post(self, request):
+        user_company = Company.objects.get_or_create(owner=request.user)[0]
         form = CompanyForm(request.POST, request.FILES)
         if form.is_valid():
-            user_company = Company.objects.filter(owner=request.user.id).first()
             company_data = form.cleaned_data
 
             # re-write the existed data with data from the form
@@ -157,7 +155,9 @@ class MyVacanciesAllView(LoginRequiredMixin, View):
 class MyVacancyOneView(LoginRequiredMixin, View):
     def get(self, request, vacancy_id):
         user_vacancy = Vacancy.objects.filter(id=vacancy_id).values().first()
+        print(user_vacancy)
         user_company = get_object_or_404(Company, owner=request.user.id)
+        print(user_company)
         if user_vacancy is None:
             user_vacancy = Vacancy.objects.create(title='новая вакансия',
                                                   specialty=Specialty.objects.get(title='Фронтенд'),
@@ -171,6 +171,7 @@ class MyVacancyOneView(LoginRequiredMixin, View):
 
         form = VacancyForm(initial=user_vacancy)
         vacancy_applications = Application.objects.filter(vacancy=vacancy_id)
+        print(vacancy_applications)
         context = {
             'form': form,
             'company': user_company,
@@ -205,21 +206,13 @@ class MyVacancyOneView(LoginRequiredMixin, View):
 
 @login_required
 def create_myresume(request):
-    # create mock-data to redirect user on 'resume-edit' page if he press the 'create' button
-    Resume.objects.create(user=request.user,
-                          name=request.user.first_name,
-                          surname=request.user.last_name,
-                          status='',
-                          salary=0,
-                          specialty=Specialty.objects.get(title='Фронтенд'),
-                          grade='',
-                          education='',
-                          experience='',
-                          portfolio='')
-
-    myresume = Resume.objects.filter(user=request.user).values().first()
+    user = request.user
+    initial_data = {
+        'name': user.first_name,
+        'surname': user.last_name
+    }
     context = {
-        'form': ResumeForm(initial=myresume)
+        'form': ResumeForm(initial=initial_data)
     }
     return render(request, 'app_jobsearch/resume-edit.html', context=context)
 
@@ -240,10 +233,12 @@ class MyResumeView(LoginRequiredMixin, View):
         return render(request, 'app_jobsearch/resume-edit.html', context=context)
 
     def post(self, request):
-        resume_instance = Resume.objects.get(user=request.user)
-        form = ResumeForm(request.POST, instance=resume_instance)
+        form = ResumeForm(request.POST)
         if form.is_valid():
-            form.save()
+            resume = form.save(commit=False)
+            resume.user = request.user
+            resume.save()
+
             messages.success(request, 'Ваше резюме обновлено!')
             return redirect('user-resume')
 

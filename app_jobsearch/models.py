@@ -45,18 +45,6 @@ class Application(models.Model):
 
 
 class Resume(models.Model):
-    '''
-    – Пользователь
-– Имя (name)
-– Фамилия (surname)
-– Готовность к работе (status) – Не ищу работу – Рассматриваю предложения – Ищу работу
-– Вознаграждение (salary)
-– Специализация (specialty)
-– Квалификация (grade)  – Стажер – Джуниор – Миддл – Синьор — Лид
-– Образование (education)
-– Опыт работы (experience)
-– Портфолио (portfolio)
-    '''
     user = models.OneToOneField(get_user_model(),
                                 on_delete=models.CASCADE,
                                 related_name='resume')
