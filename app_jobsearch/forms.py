@@ -51,9 +51,6 @@ class VacancyForm(forms.Form):
 
 
 class ResumeForm(forms.ModelForm):
-    specialty = forms.ModelChoiceField(queryset=Specialty.objects.all(),
-                                       to_field_name='code')
-
     class Meta:
         model = Resume
         exclude = ['user']

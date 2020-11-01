@@ -51,6 +51,7 @@
               Опыт работы в команде по Scrum
             </p>
           </div>
+          {% if user.is_authenticated %}
           <form method="post" action="{% url 'sent' vacancy.id %}" class="card mt-4 mb-3">
             {% csrf_token %}
             <div class="card-body mx-3">
@@ -63,6 +64,13 @@
               <input type="submit" class="btn btn-primary mt-4 mb-2" value="Отправить отзыв">
             </div>
           </form>
+          {% else %}
+          <div class="card mb-5">
+            <div class="card-body px-4">
+              <p>А еще вы можете отправить отклик на вакансию. <a href="{% url 'register' %}">Зарегистрируйтесь</a> и оставьте свой.</p>
+            </div>
+          </div>
+            {% endif %}
         </section>
       </div>
     </div>

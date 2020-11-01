@@ -46,9 +46,9 @@
               </div>
               {% endfor %}
               <!-- END vacancy state -->
-
-              <a href={% url 'user-vacancy' 0 %} class="mt-4 btn btn-info mb-2">Добавить вакансию</a>
-
+              <form class="form-group mt-3" method="post">{% csrf_token %}
+                <input type="submit" class="mt-4 btn btn-primary mb-2" value="Добавить вакансию">
+              </form>
             </section>
           </div>
         </div>

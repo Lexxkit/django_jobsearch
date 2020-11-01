@@ -28,11 +28,11 @@ class MainView(View):
 
 class AllVacanciesView(View):
     def get(self, request):
-        all_vacancies = Vacancy.objects.order_by('-published_at')
+        vacancies = Vacancy.objects.order_by('-published_at')
 
         context = {
             'page_title': 'Все вакансии',
-            'vacancies': all_vacancies
+            'vacancies': vacancies
         }
         return render(request, 'app_jobsearch/vacancies.html', context=context)
 
@@ -40,12 +40,12 @@ class AllVacanciesView(View):
 class VacanciesBySpecialtyView(View):
     def get(self, request, specialty):
         # get an object for desired specialty from DB or None
-        specialty_obj = get_object_or_404(Specialty, code=specialty)
+        specialty = get_object_or_404(Specialty, code=specialty)
 
-        vacancies_by_specialty = Vacancy.objects.filter(specialty=specialty_obj).order_by('-published_at')
+        vacancies_by_specialty = Vacancy.objects.filter(specialty=specialty).order_by('-published_at')
 
         context = {
-            'page_title': specialty_obj.title,
+            'page_title': specialty.title,
             'vacancies': vacancies_by_specialty
         }
         return render(request, 'app_jobsearch/vacancies.html', context=context)
@@ -149,27 +149,31 @@ class MyVacanciesAllView(LoginRequiredMixin, View):
         }
         return render(request, 'app_jobsearch/vacancy-list.html', context=context)
 
+    def post(self, request):
+        user_company = get_object_or_404(Company, owner=request.user.id)
+        user_vacancy = Vacancy.objects.create(title='новая вакансия',
+                                              specialty=Specialty.objects.get(title='Фронтенд'),
+                                              company=user_company,
+                                              skills='навык',
+                                              description='',
+                                              salary_min=0,
+                                              salary_max=0,
+                                              published_at=date.today())
+
+        return redirect(reverse('user-vacancy', args=[user_vacancy.id]))
+
 
 class MyVacancyOneView(LoginRequiredMixin, View):
     def get(self, request, vacancy_id):
         user_vacancy = Vacancy.objects.filter(id=vacancy_id).values().first()
-        print(user_vacancy)
         user_company = get_object_or_404(Company, owner=request.user.id)
-        print(user_company)
+
         if user_vacancy is None:
-            user_vacancy = Vacancy.objects.create(title='новая вакансия',
-                                                  specialty=Specialty.objects.get(title='Фронтенд'),
-                                                  company=user_company,
-                                                  skills='навык',
-                                                  description='',
-                                                  salary_min=0,
-                                                  salary_max=0,
-                                                  published_at=date.today())
-            user_vacancy = Vacancy.objects.filter(id=user_vacancy.id).values().first()
+            raise Http404
 
         form = VacancyForm(initial=user_vacancy)
         vacancy_applications = Application.objects.filter(vacancy=vacancy_id)
-        print(vacancy_applications)
+
         context = {
             'form': form,
             'company': user_company,
@@ -217,13 +221,12 @@ def create_myresume(request):
 
 class MyResumeView(LoginRequiredMixin, View):
     def get(self, request):
-        user_resume = Resume.objects.filter(user=request.user.id).values().first()
+        user_resume = Resume.objects.filter(user=request.user.id).first()
 
         if user_resume is None:
             return render(request, 'app_jobsearch/resume-create.html')
 
-        user_resume['specialty'] = Specialty.objects.get(id=user_resume['specialty_id'])
-        form = ResumeForm(initial=user_resume)
+        form = ResumeForm(instance=user_resume)
 
         context = {
             'form': form
