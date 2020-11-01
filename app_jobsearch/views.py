@@ -89,9 +89,7 @@ class ApplicationView(View):
             context = {
                 'vacancy': vacancy,
             }
-        context = {
-            'form': form
-        }
+
         return render(request, 'app_jobsearch/sent.html', context=context)
 
 
